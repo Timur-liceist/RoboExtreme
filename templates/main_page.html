@@ -5,6 +5,39 @@
 
 </head>
 <body>
-<h1 align="center">Тут пока что не на что смортреть</h1>
+<div align="center">
+    <font size="45%">Соревнования</font><br>
+</div>
+{% if current_user.is_authenticated %}
+{% if current_user.role_id == 1 %}
+<div align="center">
+    <a href="/create_new_competition">
+        <button class="green_button">Создать новое соревнование</button>
+    </a>
+</div>
+{% endif %}
+{% endif %}
+<div align="center">
+    <ul class="competitions">
+        {% for competition in competitions%}
+        <li>
+            <div align="left">
+                <font size="20%">{{competition.date}}</font><br>
+                <font size="5%">{{competition.commentary}}</font>
+            </div>
+            <div align="right">
+                <button class="green_button">Таблица</button>
+                {% if not current_user.is_authenticated %}
+                    <a href="/reg_team/{{competition.id}}">
+                        <button class="green_button">Поучавствовать</button>
+                    </a>
+                {% endif %}
+            </div>
+
+        </li>
+        {% endfor %}
+    </ul>
+
+</div>
 </body>
 {% endblock %}

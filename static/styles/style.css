@@ -1,0 +1,162 @@
+.top-menu {
+    background-color: #4682B4;
+    height: 65px;
+}
+
+.top-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.top-menu li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.top-menu li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 50px;
+    padding: 0 10px;
+}
+
+.top-menu li a:hover {
+    color: #6495ED;
+}
+
+
+
+/* Стили для <ul> */
+ul.competitions {
+  list-style-type: none; /* Убираем маркеры списка */
+  padding: 0; /* Убираем внутренний отступ */
+  margin: 0; /* Убираем внешний отступ */
+}
+
+/* Стили для <li> */
+ul.competitions li {
+  padding: 10px; /* Отступ вокруг элемента */
+  margin-bottom: 5px; /* Отступ между элементами */
+  background-color: #6495ED; /* Серый цвет фона элемента */
+  border-radius: 5px; /* Закругленные углы */
+  color: #333; /* Цвет текста */
+}
+
+/* При наведении на элемент <li> */
+/* ul.competitions li:hover {*/
+ /*  background-color: #6495ED; /* Синий цвет фона при наведении */
+  /* color: #fff;*/ /* Белый цвет текста при наведении */
+/* +}*/
+
+/* При клике на элемент <li> */
+ul.competitions li:active {
+  background-color: #B0C4DE; /* Синий цвет фона при клике */
+}
+
+a {
+  text-decoration: none;
+}
+button.green_button {
+  background-color: #778899;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  font-size: 16px;
+  border: 1px solid white;
+}
+
+button.green_button:hover {
+  background-color: #4682B4;
+}
+login-container {
+      width: 300px;
+      margin: 100px auto;
+      background-color: #FFFFFF;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .login-container h2 {
+      text-align: center;
+      color: #333333;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #555555;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #CCCCCC;
+      border-radius: 3px;
+    }
+
+    .form-group input[type="submit"] {
+      width: 100%;
+      padding: 8px;
+      background-color: #3498DB; /* Синий цвет фона */
+      border: none;
+      border-radius: 3px;
+      color: #FFFFFF; /* Белый цвет текста */
+      cursor: pointer;
+    }
+
+    .form-group input[type="submit"]:hover {
+      background-color: #258CD1; /* Темно-синий цвет фона при наведении */
+    }
+.regTeam label {
+  color: #0f4c81; /* темно-синий цвет для текста */
+}
+
+.regTeam input[type="text"], .regTeam input[type="tel"], .regTeam input[type="email"], .regTeam input[type="number"], .regTeam input[type="date"] {
+  border: 1px solid #cccccc; /* серый цвет для границы полей */
+  border-radius: 3px; /* скругление углов границы */
+  padding: 5px; /* отступы внутри полей */
+}
+
+.regTeam input[type="submit"] {
+  background-color: #0f4c81; /* темно-синий цвет для кнопки */
+  color: white; /* белый цвет для текста на кнопке */
+  border: none; /* убрать границу у кнопки */
+  padding: 10px 20px; /* отступы внутри кнопки */
+  border-radius: 3px; /* скругление углов кнопки */
+  cursor: pointer; /* изменение курсора при наведении на кнопку */
+}
+
+.regTeam input[type="submit"]:hover {
+  background-color: #4682b4; /* светло-синий цвет для кнопки при наведении */
+}
+
+input[type="checkbox"] {
+  position: relative;
+  display: inline-block;
+  width: 20px; /* Укажите нужную ширину */
+  height: 20px; /* Укажите нужную высоту */
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid gray; /* Серый цвет рамки */
+  background-color: white; /* Белый цвет фона */
+}
+
+input[type="checkbox"]:checked::before {
+  background-color: blue; /* Синий цвет фона при выбранном состоянии */
+}

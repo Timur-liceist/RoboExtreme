@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+
+</head>
+<body>
+
+  <div class="login-container">
+    <h2>Вход в аккаунт</h2>
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        {{form.date_of_start_competition.label}}
+        {{form.date_of_start_competition(type="date", id="date_of_start_competition")}}
+      </div>
+      <div class="form-group">
+        {{form.commentary_for_competition.label}}
+        {{form.commentary_for_competition(type="text", width="90%", id="commentary_for_competition", placeholder="Введите комментарии к соревнованию")}}
+      </div>
+      <div class="form-group">
+        {{form.submit(type="submit")}}
+      </div>
+      <div>{{message}}</div>
+    </form>
+  </div>
+</body>
+{% endblock %}
