@@ -25,3 +25,6 @@ class TeamDB(SqlAlchemyBase):
     last_name_second_member = sqlalchemy.Column(sqlalchemy.String)
     date_birthday_second_member = sqlalchemy.Column(sqlalchemy.String)
     certificate_PFDO_second_member = sqlalchemy.Column(sqlalchemy.String)
+    final_top = sqlalchemy.Column(sqlalchemy.Integer)
+    final_score = sqlalchemy.Column(sqlalchemy.Integer)
+    random_queue = sqlalchemy.Column(sqlalchemy.Integer)

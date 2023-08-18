@@ -8,3 +8,4 @@ class Competition(SqlAlchemyBase):
     id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(Text)
     commentary = Column(Text)
+    date_of_ending_registration_members = Column(Text)

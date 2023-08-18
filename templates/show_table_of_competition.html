@@ -1,10 +1,210 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+<div align="center">
+    {% if nomination_show == "Пилот" %}
+    <a href="/table/autopilot/{{competition.id}}">
+        <button class="green_button" style="width: 50%">Посмотреть номинацию "Автопилот"</button></a>
+    {% else %}
+    <a href="/table/pilot/{{competition.id}}">
+        <button class="green_button" style="width: 50%">Посмотреть номинацию "Пилот"</button></a>
+    {% endif %}
+</div>
+<h2 align="center">Таблица для номинации "{{ nomination_show }}"</h2>
+{% if started_of_competition %}
+    <div class="tabs">
+        {% if started_of_competition%}
+        <div class="tab active" onclick="changeTab(0)">Зарегистрированные</div>
+        <div class="tab" onclick="changeTab(1)">Итог</div>
+        {% endif %}
+        <div class="tab" onclick="changeTab(2)">Жеребьёвка</div>
+    </div>
+
+    <div class="tab-content active">
+        <table>
+            <thead>
+            <tr>
+                <th>Название команды</th>
+                <th>ФИО наставника</th>
+                <th>ФИО первого участника</th>
+                <th>ФИО второго участника</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for team in members%}
+            <tr>
+                <td>{{team.name_command}}</td>
+                <td>{{team.manager}}</td>
+                <td>{{team.last_name_first_member}} {{team.name_first_member}} {{team.middle_name_first_member}}</td>
+                <td>{{team.last_name_second_member}} {{team.name_second_member}} {{team.middle_name_second_member}}</td>
+            </tr>
+            {%endfor%}
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-content">
+        <table>
+            <thead>
+            <tr>
+                <th>Название команды</th>
+                <th>ФИО Наставника</th>
+                <th>ФИО Первого участника</th>
+                <th>ФИО Второго участника</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Круто!</td>
+                <td>Очилов Тимур Асланджонович</td>
+                <td>Очилов Тимур Асланджонович</td>
+                <td>Очилов Тимур Асланджонович</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-content">
+        <table>
+            <thead>
+            <tr>
+                <th>Место</th>
+                <th>Название команды</th>
+                <th>ФИО Наставника</th>
+                <th>ФИО Первого участника</th>
+                <th>ФИО Второго участника</th>
+                <th>Балл</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--            <tr>-->
+            <!--                <td>1</td>-->
+            <!--                <td>Круто!</td>-->
+            <!--                <td>Очилов Тимур Асланджонович</td>-->
+            <!--                <td>Очилов Тимур Асланджонович</td>-->
+            <!--                <td>Очилов Тимур Асланджонович</td>-->
+            <!--                <td>26</td>-->
+            <!--            </tr>-->
+            <tr>
+                <td>1</td>
+                <td>Круто!</td>
+                <td>Очилов Тимур Асланджонович</td>
+                <td>Очилов Тимур Асланджонович</td>
+                <td>Очилов Тимур Асланджонович</td>
+                <td>26</td>
+            </tr>
+
+            {% for team in members_random_queue%}
+            <tr>
+                <td>{{team.members_random_queue}}</td>
+                <td>{{team.name_command}}</td>
+                <td>{{team.manager}}</td>
+                <td>{{team.last_name_first_member}} {{team.name_first_member}} {{team.middle_name_first_member}}</td>
+                <td>{{team.last_name_second_member}} {{team.name_second_member}} {{team.middle_name_second_member}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <table>
+        <thead>
+        <tr>
+            <th>Название команды</th>
+            <th>ФИО наставника</th>
+            <th>ФИО первого участника</th>
+            <th>ФИО второго участника</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for team in members%}
+        <tr>
+            <td>{{team.name_command}}</td>
+            <td>{{team.manager}}</td>
+            <td>{{team.last_name_first_member}} {{team.name_first_member}} {{team.middle_name_first_member}}</td>
+            <td>{{team.last_name_second_member}} {{team.name_second_member}} {{team.middle_name_second_member}}</td>
+        </tr>
+        {%endfor%}
+        </tbody>
+    </table>
+{% endif %}
+
+
+<script>
+    function changeTab(tabIndex) {
+      const tabs = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach((tab, index) => {
+        if (index === tabIndex) {
+          tab.classList.add('active');
+          tabContents[index].classList.add('active');
+        } else {
+          tab.classList.remove('active');
+          tabContents[index].classList.remove('active');
+        }
+      });
+    }
+</script>
+</body>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+  body {
+    font-family: Arial, sans-serif;
+  }
 
-</body>
+  .tabs {
+    display: flex;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+  }
+
+  .tab:hover {
+    background-color: #e0e0e0;
+  }
+
+  .tab.active {
+    background-color: #fff;
+    border-bottom: none;
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f0f0f0;
+  }
+
+
+
+    </style>
+    <title>Соревнования</title>
+</head>
 </html>
+
+{% endblock %}

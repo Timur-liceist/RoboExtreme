@@ -22,11 +22,13 @@
         {% for competition in competitions%}
         <li>
             <div align="left">
-                <font size="20%">{{competition.date}}</font><br>
+                <font size="20%">{{competition.date}}</font><font color="yellow" size="4%">Дата и время окончания регистрации на соревнование - {{" ".join(competition.date_of_ending_registration_members.split("T"))}}</font><br>
                 <font size="5%">{{competition.commentary}}</font>
             </div>
             <div align="right">
-                <button class="green_button">Таблица</button>
+                <a href="/table/pilot/{{competition.id}}">
+                    <button class="green_button">Таблица</button>
+                </a>
                 {% if not current_user.is_authenticated %}
                     <a href="/reg_team/{{competition.id}}">
                         <button class="green_button">Поучавствовать</button>

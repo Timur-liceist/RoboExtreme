@@ -19,6 +19,10 @@
         {{form.commentary_for_competition(type="text", width="90%", id="commentary_for_competition", placeholder="Введите комментарии к соревнованию")}}
       </div>
       <div class="form-group">
+        {{form.date_of_ending_registration_members.label}}
+        {{form.date_of_ending_registration_members(type="datetime-local", width="90%", id="commentary_for_competition", placeholder="Введите комментарии к соревнованию")}}
+      </div>
+      <div class="form-group">
         {{form.submit(type="submit")}}
       </div>
       <div>{{message}}</div>
