@@ -5,17 +5,23 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
-    <nav class="top-menu">
-        <ul>
-            <li><a href="/"><font size="20%">Главная</font></a></li>
-            {% if not current_user.is_authenticated%}
-                <li><a href="/login_user"><span style="font-size: 20px; float: right;">Войти как организатор</span></a></li>
-            {% else %}
-                <li><a href="/login_user"><span style="font-size: 20px; float: right;">{{current_user.name}} {{current_user.last_name}}</span></a></li>
-                <li><a href="/logout"><span style="font-size: 20px; color: red; float: right;">Выйти</span></a></li>
-            {% endif %}
-        </ul>
-    </nav>
+    <div class="topnav">
+        <a class="active" href="/">Главная</a>
+
+        {% if not current_user.is_authenticated%}
+
+            <a href="/login_user" style="float: right">Войти</a>
+
+        {% else %}
+
+            <a href="/" style="float: right">
+                {{current_user.name}} {{current_user.last_name}}
+            </a>
+
+            <a href="/logout" style="float: right"><font color="red">Выйти</font></a>
+
+        {% endif %}
+    </div>
 </head>
 <main role="main" class="container">
     {% block content %}{% endblock %}

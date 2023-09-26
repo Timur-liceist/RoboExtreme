@@ -1,1 +1,1 @@
-from . import class_db_competition, class_db_reg_team
+from . import class_db_competition, class_db_team

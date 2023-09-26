@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Таймер</title>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    min-height: 100vh;
+    background-color: white;
+    font-family: Arial, sans-serif;
+  }
+
+  .timer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 5%    ;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
+
+  .timer {
+    margin-top: 20px;
+    font-size: 48px;
+    font-weight: bold;
+    color: blue;
+    margin-bottom: 10px;
+  }
+
+  .timer-state {
+    font-size: 18px;
+    color: gray;
+    margin-bottom: 10px;
+  }
+
+  .btn-container {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn:hover {
+    opacity: 0.8;
+  }
+
+  .btn-start {
+    background-color: blue;
+  }
+
+  .btn-pause, .btn-reset {
+    background-color: gray;
+  }
+</style>
+</head>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Left Sidebar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+
+    <style>
+        .nav-link {
+            color: white;
+        }
+
+        .nav-link:hover {
+            color: cyan;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+
+          th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+          }
+
+          th {
+            background-color: #f0f0f0;
+          }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .menu-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20%;
+            height: 100%;
+            background-color: #4682B4;
+            color: #fff;
+            overflow-y: auto; /* Добавляем вертикальную прокрутку */
+        }
+
+        .menu-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            box-sizing: border-box;
+            text-align: left;
+            text-decoration: none;
+            color: #fff;
+            border: none;
+            background-color: transparent;
+            transition: background-color 0.3s;
+        }
+        .text_message_at_menu_buttons {
+            display: block;
+            width: 25%;
+            padding: 15px;
+            box-sizing: border-box;
+            text-align: left;
+            text-decoration: none;
+            color: #fff;
+            border: none;
+            background-color: transparent;
+            transition: background-color 0.3s;
+        }
+        .menu-button:hover {
+            background-color: #555;
+        }
+    </style>
+    <div class="menu-container">
+        <a href="/">
+            <button class="menu-button">Главная</button>
+        </a>
+        <a href="/information_about_competition/{{ competition_id }}/{{ nomination }}/{{ number_of_launch }}">
+            <button class="menu-button">Информация</button>
+        </a>
+        {% if number_of_launch == 1 %}
+            <h4 class="text_message_at_menu_buttons">Первый заезд</h4>
+        {% else %}
+            <h4 class="text_message_at_menu_buttons">Второй заезд</h4>
+        {% endif %}
+        {% for current_team in teams %}
+
+            {% if len(current_team.name_command) > 30 %}
+                {% if current_team.id == team.id %}
+                    <a href="/timer/{{competition_id}}/{{nomination}}/{{number_of_launch}}/{{current_team.id}}">
+                        <button class="menu-button">{{ current_team.name_command[:30] + "...✔" }}</button>
+                    </a>
+                {% else %}
+                    <a href="/timer/{{competition_id}}/{{nomination}}/{{number_of_launch}}/{{current_team.id}}">
+                        <button class="menu-button">{{ current_team.name_command[:30] + "..." }}</button>
+                    </a>
+                {% endif%}
+            {% else %}
+                {% if current_team.id == team.id %}
+                    <a href="/timer/{{competition_id}}/{{nomination}}/{{number_of_launch}}/{{current_team.id}}">
+                        <button class="menu-button">{{ current_team.name_command + "✔" }}</button>
+                    </a>
+                {% else %}
+                    <a href="/timer/{{competition_id}}/{{nomination}}/{{number_of_launch}}/{{current_team.id}}">
+                        <button class="menu-button">{{ current_team.name_command }}</button>
+                    </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        {% if number_of_launch == 1%}
+            <a href="/timer/{{ competition_id }}/{{nomination}}/2/{{teams[0].id}}">
+                <button class="menu-button"><font color="red">Второй заезду</font></button>
+            </a>
+        {% else %}
+            <a href="/timer/{{ competition_id }}/{{nomination}}/1/{{teams[0].id}}">
+                <button class="menu-button"><font color="red">Первый заезд</font></button>
+            </a>
+        {% endif %}
+    </div>
+
+    <form method="POST" id="form_for_timer_for_competition">
+<!--        <img style="margin-left: 25%;"src="{{url_for('static',filename='img/img.png')}}">-->
+        <div style="display: flex;">
+        <table style="margin-top: 0%; margin-left: 70%; margin-top: 20px" >
+            <tr>
+                <td colspan="5">
+                    <div align="center">
+                        <button class="btn btn-reset" type="submit" style="background-color: green; border-color: yellow;"><font color="yellow">Следующая команда ==></font></button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+
+                    {% if len(team.name_command) > 30 %}
+                        <th colspan="5">
+                            <div align="center">
+                                {{team.name_command[:30] + "..."}}
+                            </div>
+                        </th>
+                    {% else %}
+                        <th colspan="5">
+                            <div align="center">
+                                {{team.name_command}}
+                            </div>
+                        </th>
+                    {% endif %}
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <input type="checkbox" id="score_start" value="3">
+                    <label for="score_3">Вышел из старта</label>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <div align="center">
+                        Пострадавший
+                    </div>
+                </th>
+
+                <th>
+                    <div align="center">3
+                    </div>
+                </th>
+                <th>
+                    <div align="center">6
+                    </div>
+                </th>
+                <th>
+                    <div align="center">9
+                    </div>
+                </th>
+                <th>
+                    <div align="center">13
+                    </div>
+                </th>
+    <!--                <th>Имя пострадавшего</th>-->
+    <!--                <th>Достиг без захвата<br>3</th>-->
+    <!--                <th>Достиг, Захватил, выронил<br>6</th>-->
+    <!--                <th>Достиг, захватил, выронил, вернулся в старт<br>9</th>-->
+    <!--                <th>Доставка пострадавшего в старт<br>13</th>-->
+            </tr>
+            <tbody>
+            {% for index_person in range(len(affected_persons)) %}
+            <tr>
+                <td>{{affected_persons[index_person]}}</td>
+                <td>
+                    <input type="checkbox" id="score_3" form="form_for_timer_for_competition" name="{{index_person}}_3" value="3" style="width: 30px; heigh: 30px">
+    <!--                    <label for="score_3">Huey</label>-->
+                </td>
+                <td>
+                    <input type="checkbox" id="score_6" form="form_for_timer_for_competition" name="{{index_person}}_6" value="6" style="width: 30px; heigh: 30px">
+    <!--                    <label for="score_6">Huey</label>-->
+                </td>
+                <td>
+                    <input type="checkbox" id="score_9" form="form_for_timer_for_competition" name="{{index_person}}_9" value="9" style="width: 30px; heigh: 30px">
+    <!--                    <label for="score_9">Huey</label>-->
+                </td>O)
+                <td>
+
+                    <input type="checkbox" id="score_13" form="form_for_timer_for_competition" name="{{index_person}}_13" value="13" style="width: 30px; heigh: 30px;">
+    <!--                    <label for="score_13">Huey</label>-->
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </form>
+    <div style="margin-left: 25%; padding: 20px; ">
+    </div>
+
+<div class="timer-container">
+    <div class="timer-state" id="timerState">Таймер остановлен</div>
+    <div class="timer" id="timer">5:00</div>
+    <div class="btn-container">
+      <button class="btn btn-start"  type="button" id="startButton">Продолжить</button>
+      <button class="btn btn-pause" type="button" id="pauseButton">Пауза</button>
+      <button class="btn btn-reset" type="button" id="resetButton">Сброс</button>
+    </div>
+
+</div>
+<audio id="audio_15" src="{{ url_for('static',filename='sounds/timer_15_sec_of_ending.mp3') }}"></audio>
+<audio id="audio_end" src="{{ url_for('static',filename='sounds/end_of_timer.mp3') }}"></audio>
+</body>
+
+
+
+<script>
+  let timerInterval;
+  {% if nomination == "autopilot" %}
+      let TIMELEFT = 600
+  {% else %}
+      let TIMELEFT = 300
+  {% endif %}
+  let timeLeft = TIMELEFT;
+  let isTimerRunning = false;
+
+  const timerElement = document.getElementById('timer');
+  const timerStateElement = document.getElementById('timerState');
+  const startButton = document.getElementById('startButton');
+  const pauseButton = document.getElementById('pauseButton');
+  const resetButton = document.getElementById('resetButton');
+  const audio_15 = document.getElementById('audio_15');
+  const audio_end = document.getElementById('audio_end');
+
+  function updateTimer() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+    if (timeLeft <= 15) {
+      audio_15.play();
+    }
+    if (timeLeft == 0) {
+      audio_15.pause();
+      audio_end.play();
+    }
+  }
+
+  function startTimer() {
+    if (!isTimerRunning) {
+      timerStateElement.textContent = 'Таймер идет...';
+      timerInterval = setInterval(() => {
+        if (timeLeft > 0) {
+          timeLeft--;
+          updateTimer();
+        } else {
+          clearInterval(timerInterval);
+          timerStateElement.textContent = 'Таймер завершен';
+          audio_end.pause();
+        }
+      }, 1000);
+      isTimerRunning = true;
+    }
+  }
+
+  startButton.addEventListener('click', () => {
+    startTimer();
+  });
+
+  pauseButton.addEventListener('click', () => {
+    if (isTimerRunning){
+        clearInterval(timerInterval);
+        timerStateElement.textContent = 'Таймер приостановлен';
+        audio_15.pause();
+        isTimerRunning = false;
+
+    }
+    else{
+        clearInterval(timerInterval);
+        timerStateElement.textContent = 'Таймер идёт...';
+        isTimerRunning = false;
+        if (timeLeft <= 15) {
+          audio_15.play();
+        }
+    }
+  });
+
+  resetButton.addEventListener('click', () => {
+    clearInterval(timerInterval);
+    timeLeft = TIMELEFT;
+    updateTimer();
+    timerStateElement.textContent = 'Таймер сброшен';
+    audio.pause();
+    isTimerRunning = false;
+  });
+
+  updateTimer();
+</script>
+</body>
+</html>

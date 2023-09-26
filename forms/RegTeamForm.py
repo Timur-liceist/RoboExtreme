@@ -19,6 +19,6 @@ class TeamForm(FlaskForm):
     name_second_member = StringField('Имя второго участника', validators=[DataRequired()], default="-")
     middle_name_second_member = StringField('Отчество второго участника(Если есть)', default="-")
     last_name_second_member = StringField('Фамилия второго участника', validators=[DataRequired()], default="-")
-    date_birthday_second_member = StringField('Дата рождения второго участника', validators=[DataRequired()], default="-")
+    date_birthday_second_member = StringField ('Дата рождения второго участника', default="-")
     certificate_PFDO_second_member = StringField('Свидетельство ПФДО второго участника(Необязательно)', default="-")
     submit = SubmitField('Зарегистрировать команду')

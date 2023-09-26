@@ -9,3 +9,6 @@ class Competition(SqlAlchemyBase):
     date = Column(Text)
     commentary = Column(Text)
     date_of_ending_registration_members = Column(Text)
+    started = Column(Text)
+    date_of_starting_registration_members = Column(Text)
+    header_for_competition = Column(Text)

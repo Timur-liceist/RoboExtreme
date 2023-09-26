@@ -9,20 +9,33 @@
     <font size="45%">Соревнования</font><br>
 </div>
 {% if current_user.is_authenticated %}
-{% if current_user.role_id == 1 %}
-<div align="center">
-    <a href="/create_new_competition">
-        <button class="green_button">Создать новое соревнование</button>
-    </a>
-</div>
+    <div align="center">
+        <a href="/create_new_competition">
+            <button class="green_button">Создать новое соревнование</button>
+        </a>
+    </div>
 {% endif %}
-{% endif %}
+
 <div align="center">
     <ul class="competitions">
         {% for competition in competitions%}
         <li>
             <div align="left">
-                <font size="20%">{{competition.date}}</font><font color="yellow" size="4%">Дата и время окончания регистрации на соревнование - {{" ".join(competition.date_of_ending_registration_members.split("T"))}}</font><br>
+                <font size="6%">{{competition.header_for_competition}}</font><br>
+                {% if competition.started == "not_started"%}
+                    <font color="yellow" size="4%">Статус соревнования - НЕ НАЧАТО</font>
+                {% elif competition.started == "started" %}
+                    <font color="yellow" size="4%">Статус соревнования - НАЧАТО</font>
+                {% else %}
+                    <font color="yellow" size="4%">Статус соревнования - ЗАКОНЧЕНО</font>
+                {% endif %}
+                <br>
+                <font color="yellow" size="4%">Дата проведения соревнования - {{".".join(competition.date.split("-")[::-1])}}</font>
+                <br>
+                <font color="yellow" size="4%">Дата и время начала регистрации на соревнование - {{".".join(competition.date_of_starting_registration_members.split("T")[0].split("-")[::-1]) + " " + competition.date_of_starting_registration_members.split("T")[1]}}</font>
+                <br>
+                <font color="yellow" size="4%">Дата и время окончания регистрации на соревнование - {{".".join(competition.date_of_ending_registration_members.split("T")[0].split("-")[::-1]) + " " + competition.date_of_ending_registration_members.split("T")[1]}}</font>
+                <br>
                 <font size="5%">{{competition.commentary}}</font>
             </div>
             <div align="right">
@@ -31,7 +44,24 @@
                 </a>
                 {% if not current_user.is_authenticated %}
                     <a href="/reg_team/{{competition.id}}">
-                        <button class="green_button">Поучавствовать</button>
+                        <button class="green_button">Зарегистрировать команду</button>
+                    </a>
+                {% elif current_user.role_id == 2 %}
+                    {% if competition.started == "started"%}
+                        <a href="/to_end_this_competition/ended/{{ competition.id }}">
+                            <button class="green_button">Закончить соревнование</button>
+                        </a>
+                    {% elif competition.started == "not_started" or competition.started == "ended" %}
+
+                        <a href="/to_end_this_competition/started/{{ competition.id }}">
+                            <button class="green_button">Начать соревнование</button>
+                        </a>
+                    {% endif %}
+                    <a href="/information_about_competition/{{competition.id}}/pilot/1">
+                        <button class="green_button">Судить по номинации "Пилот"</button>
+                    </a>
+                    <a href="/information_about_competition/{{competition.id}}/autopilot/1">
+                        <button class="green_button">Судить по номинации "Автопилот"</button>
                     </a>
                 {% endif %}
             </div>

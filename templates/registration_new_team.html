@@ -9,21 +9,21 @@
 {{ form.hidden_tag() }}
 <form method="POST" action="">
 
-    <h4 align="center">Название команды</h4>
+    <h4 align="left">Название команды</h4>
 
     <div class="form-group">
         {{form.name_command.label}}
         {{form.name_command(type="text")}}
     </div>
 
-    <h4 align="center">Название организации</h4>
+    <h4 align="left">Название организации</h4>
 
     <div class="form-group">
         {{form.name_of_organization.label}}
         {{form.name_of_organization(type="text")}}
     </div>
 
-    <h3 align="center">Руководитель</h3>
+    <h3 align="left">Руководитель</h3>
 
     <div class="form-group">
         {{form.manager.label}}
@@ -41,7 +41,7 @@
 
     </div>
 
-    <h3 align="center">Участник 1</h3>
+    <h3 align="left">Участник 1</h3>
 
 
     <div class="form-group">
@@ -69,7 +69,8 @@
         {{form.certificate_PFDO_first_member(type="text")}}
     </div>
 
-    <h3 align="center">Участник 2(Если его нет, то просто пропустите поля)</h3>
+    <h3 align="left">Участник 2</h3>
+    <h5><font color="red">(если его нет, то просто пропустите поля)</font></h5>
 
     <div class="form-group">
         {{form.name_second_member.label}}
@@ -97,12 +98,12 @@
         {{form.certificate_PFDO_second_member.label}}
         {{form.certificate_PFDO_second_member(type="text")}}
     </div>
-    <h3 align="center">Номинация</h3>
+    <h3 align="left">Номинация</h3>
     <div class="form-group" align="center">
-        <input type="radio" name="nomination" id="pilot" value="1">
-        <label for="pilot">Номинация "Пилот"</label>
+        <input type="radio" name="nomination" id="pilot" value="1" checked>
+        <label for="pilot">Пилот</label>
         <input type="radio" name="nomination" id="autopilot" value="2">
-        <label for="autopilot">Номинация "Автопилот"</label>
+        <label for="autopilot">Автопилот</label>
     </div>
 
     <div class="form-group">
