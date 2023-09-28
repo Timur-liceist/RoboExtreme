@@ -29,6 +29,11 @@
                 <th>ФИО наставника</th>
                 <th>ФИО первого участника</th>
                 <th>ФИО второго участника</th>
+                {% if user.is_authenticated %}
+                    {% if user.role_id == 1 %}
+                        <th></th>
+                    {% endif %}
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -38,6 +43,15 @@
                 <td>{{team.manager}}</td>
                 <td>{{team.last_name_first_member}} {{team.name_first_member}} {{team.middle_name_first_member}}</td>
                 <td>{{team.last_name_second_member}} {{team.name_second_member}} {{team.middle_name_second_member}}</td>
+                {% if current_user.is_authenticated %}
+                    {% if current_user.role_id == 1 %}
+                        <td>
+                            <a href="/redact_team/{{ team.id }}">
+                                <button class="green_button">Изменить</button>
+                            </a>
+                        </td>
+                    {% endif %}
+                {% endif %}
             </tr>
             {%endfor%}
             </tbody>
@@ -73,6 +87,11 @@
                 <th>ФИО Первого участника</th>
                 <th>ФИО Второго участника</th>
                 <th>Балл</th>
+                {% if current_user.is_authenticated %}
+                    {% if current_user.role_id == 1 %}
+                        <th></th>
+                    {% endif %}
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -84,22 +103,23 @@
             <!--                <td>Очилов Тимур Асланджонович</td>-->
             <!--                <td>26</td>-->
             <!--            </tr>-->
-            <tr>
-                <td>1</td>
-                <td>Круто!</td>
-                <td>Очилов Тимур Асланджонович</td>
-                <td>Очилов Тимур Асланджонович</td>
-                <td>Очилов Тимур Асланджонович</td>
-                <td>26</td>
-            </tr>
 
-            {% for team in members_random_queue%}
+            {% for team in final_members_of_competition%}
             <tr>
                 <td>{{team.members_random_queue}}</td>
                 <td>{{team.name_command}}</td>
                 <td>{{team.manager}}</td>
                 <td>{{team.last_name_first_member}} {{team.name_first_member}} {{team.middle_name_first_member}}</td>
                 <td>{{team.last_name_second_member}} {{team.name_second_member}} {{team.middle_name_second_member}}</td>
+                {% if current_user.is_authenticated %}
+                    {% if current_user.role_id == 1 %}
+                        <td>
+                            <a href="/redact_team/{{ team.id }}">
+                                <button class="green_button">Изменить</button>
+                            </a>
+                        </td>
+                    {% endif %}
+                {% endif %}
             </tr>
             {% endfor %}
             </tbody>
@@ -114,6 +134,11 @@
             <th>ФИО наставника</th>
             <th>ФИО первого участника</th>
             <th>ФИО второго участника</th>
+            {% if current_user.is_authenticated %}
+                {% if current_user.role_id == 1 %}
+                    <th></th>
+                {% endif %}
+            {% endif %}
         </tr>
         </thead>
         <tbody>
@@ -123,6 +148,15 @@
             <td>{{team.manager}}</td>
             <td>{{team.last_name_first_member}} {{team.name_first_member}} {{team.middle_name_first_member}}</td>
             <td>{{team.last_name_second_member}} {{team.name_second_member}} {{team.middle_name_second_member}}</td>
+            {% if current_user.is_authenticated %}
+                {% if current_user.role_id == 1 %}
+                    <td>
+                        <a href="/redact_team/{{ team.id }}">
+                            <button class="green_button">Изменить</button>
+                        </a>
+                    </td>
+                {% endif %}
+            {% endif %}
         </tr>
         {%endfor%}
         </tbody>

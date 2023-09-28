@@ -99,15 +99,38 @@
         {{form.certificate_PFDO_second_member(type="text")}}
     </div>
     <h3 align="left">Номинация</h3>
-    <div class="form-group" align="center">
-        <input type="radio" name="nomination" id="pilot" value="1" checked>
-        <label for="pilot">Пилот</label>
-        <input type="radio" name="nomination" id="autopilot" value="2">
-        <label for="autopilot">Автопилот</label>
-    </div>
+    {% if create_or_redact_team_form_html == "redact" %}
+        <div align="left">
+            {% if nom == "Пилот" %}
+                <input type="radio" name="nomination" id="pilot" value="1" checked>
+                <label for="pilot">Пилот</label>
+                <br>
+                <input type="radio" name="nomination" id="autopilot" value="2">
+                <label for="autopilot">Автопилот</label>
+            {% else %}
+                <input type="radio" name="nomination" id="pilot" value="1">
+                <label for="pilot">Пилот</label>
+                <br>
+                <input type="radio" name="nomination" id="autopilot" value="2" checked>
+                <label for="autopilot">Автопилот</label>
+            {% endif %}
+        </div>
+    {% else %}
+        <div align="left">
+            <input type="radio" name="nomination" id="pilot" value="1" checked>
+            <label for="pilot">Пилот</label>
+            <br>
+            <input type="radio" name="nomination" id="autopilot" value="2">
+            <label for="autopilot">Автопилот</label>
+        </div>
+    {% endif %}
 
     <div class="form-group">
-        {{form.submit(type="submit")}}
+        {% if create_or_redact_team_form_html == "create" %}
+            {{form.submit(type="submit", text="Зарегистрировать")}}
+        {% else %}
+            {{form.submit(type="submit", text="Сохранить")}}
+        {% endif %}
     </div>
 </form>
 </body>

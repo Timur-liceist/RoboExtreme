@@ -100,6 +100,7 @@ def load_user(user_id):
 def logout():
     if not current_user.is_authenticated:
         return redirect("/")
+
     logout_user()
 
     return redirect("/")
@@ -110,14 +111,16 @@ def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 
-
+# Поставить соревнованию статус закончено или же началот
 @app.route("/to_end_this_competition/<string:end_or_start>/<int:id>", methods=["GET"])
 @limiter.limit("5/second")
 def to_end_this_competition(end_or_start, id):
     if not current_user.is_authenticated:
         return redirect("/")
+
     if end_or_start != "ended" and end_or_start != "started":
         return redirect("/")
+
     sess = db_session.create_session()
     competition = sess.query(Competition).filter(Competition.id == id).first()
     competition.started = end_or_start
@@ -130,9 +133,9 @@ def to_end_this_competition(end_or_start, id):
 @app.route("/login_user", methods=["GET", "POST"])
 @limiter.limit("5/second")
 def login():
-
     if current_user.is_authenticated:
         return redirect("/")
+
     if request.method == "POST":
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == request.form["email"]).first()
@@ -166,12 +169,21 @@ def find_nominatation_name_by_id(name_of_nomination):
     return "Автопилот"
 
 
+# Перевод из id(в базе данных) номинации в строку на английском для пользователя которую покажут на странице
+def find_english_nominatation_name_by_id(name_of_nomination):
+    if name_of_nomination == 1:
+        return "pilot"
+
+    return "autopilot"
+
+
 # Ифнормация для судьи об соревновании которое он судит
 @app.route("/information_about_competition/<int:competition_id>/<string:nomination>/<int:number_of_launch>")
 @limiter.limit("5/second")
 def information_about_competition(competition_id, nomination, number_of_launch):
     if not current_user.is_authenticated:
         return redirect("/")
+
     sess = db_session.create_session()
     teams = sess.query(TeamDB).filter(TeamDB.competition_id == competition_id)
     competition = sess.query(Competition).filter(Competition.id == competition_id).first()
@@ -201,14 +213,13 @@ def timer(competition_id, nomination, number_of_launch, id_team):
             ***Здесь будут считаться баллы
         """
         return redirect(f"/timer/{competition_id}/{nomination}/{number_of_launch}/{id_team}")
-    # if request.method == "POST":
-    #     return redirect("/")
 
     if request.method == "GET":
         sess = db_session.create_session()
         teams = sess.query(TeamDB).filter(TeamDB.competition_id == competition_id).all()
         team = sess.query(TeamDB).filter(TeamDB.id == id_team).first()
         print(team.name_command, 1)
+
         return render_template("timer.html",
                                affected_persons=const_data_json["list_of_affected"],
                                len=len,
@@ -217,6 +228,68 @@ def timer(competition_id, nomination, number_of_launch, id_team):
                                nomination=nomination,
                                numb=0,
                                competition_id=competition_id, number_of_launch=number_of_launch)
+
+
+# Админ может отредактировать команду в таблице
+@app.route("/redact_team/<int:team_id>", methods=["POST", "GET"])
+@limiter.limit("5/second")
+def to_redact_this_team_by_admin(team_id):
+    if current_user.is_authenticated:
+
+        if current_user.role_id == 2:
+            return redirect("/")
+
+    else:
+        return redirect("/")
+
+    sess = db_session.create_session()
+    current_team = sess.query(TeamDB).filter(TeamDB.id == team_id).first()
+
+    if request.method == "GET":
+        form = TeamForm(
+            name_command=current_team.name_command,
+            name_of_organization=current_team.name_of_organization,
+            manager=current_team.manager,
+            number_phone_of_manager=current_team.number_phone_of_manager,
+            email_of_manager=current_team.email_of_manager,
+            name_first_member=current_team.name_first_member,
+            last_name_first_member=current_team.last_name_first_member,
+            middle_name_first_member=current_team.middle_name_first_member,
+            date_birthday_first_member=current_team.date_birthday_first_member,
+            certificate_PFDO_first_member=current_team.certificate_PFDO_first_member,
+            name_second_member=current_team.name_second_member,
+            middle_name_second_member=current_team.middle_name_second_member,
+            last_name_second_member=current_team.last_name_second_member,
+            date_birthday_second_member=current_team.date_birthday_second_member,
+            certificate_PFDO_second_member=current_team.certificate_PFDO_second_member
+        )
+        nom = find_nominatation_name_by_id(current_team.nomination)
+        print(nom)
+        print(current_team.nomination)
+        return render_template("registration_new_team.html", create_or_redact_team_form_html="redact", form=form, nom=nom)
+
+    elif request.method == "POST":
+        current_team.name_command = request.form["name_command"]
+        current_team.name_of_organization = request.form["name_of_organization"]
+        current_team.manager = request.form["manager"]
+        current_team.number_phone_of_manager = request.form["number_phone_of_manager"]
+        current_team.email_of_manager = request.form["email_of_manager"]
+        current_team.name_first_member = request.form["name_first_member"]
+        current_team.last_name_first_member = request.form["last_name_first_member"]
+        current_team.middle_name_first_member = request.form["middle_name_first_member"]
+        current_team.date_birthday_first_member = request.form["date_birthday_first_member"]
+        current_team.certificate_PFDO_first_member = request.form["certificate_PFDO_first_member"]
+        current_team.name_second_member = request.form["name_second_member"]
+        current_team.middle_name_second_member = request.form["middle_name_second_member"]
+        current_team.last_name_second_member = request.form["last_name_second_member"]
+        current_team.date_birthday_second_member = request.form["date_birthday_second_member"]
+        current_team.certificate_PFDO_second_member = request.form["certificate_PFDO_second_member"]
+        current_team.nomination = request.form["nomination"]
+        competition_id = current_team.competition_id
+        sess.commit()
+        sess.close()
+
+        return redirect(f"/table/{find_english_nominatation_name_by_id(request.form['nomination'])}/{competition_id}")
 
 
 # Демонстрация таблиц "Итог", "Жеребьёвка", "Зарегистрированные"
@@ -267,6 +340,7 @@ def show_table(nomination_name, id):
 def reg_team(id):
     if current_user.is_authenticated:
         return redirect("/")
+
     if request.method == "POST":
         team = TeamDB()
 
@@ -301,7 +375,7 @@ def reg_team(id):
         return redirect("/")
 
     elif request.method == "GET":
-        return render_template("registration_new_team.html", form=TeamForm())
+        return render_template("registration_new_team.html", form=TeamForm(), create_or_redact_team_form_html="create")
 
 
 print("http://127.0.0.1:5000/timer")
