@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, Text
 from .db_session import SqlAlchemyBase
 
-
+# Таблица БД в которой находятся соревнования
 class Competition(SqlAlchemyBase):
     __tablename__ = 'competition'
 

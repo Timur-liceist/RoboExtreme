@@ -3,6 +3,8 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 
 from .db_session import SqlAlchemyBase
 
+
+# Таблица БД в которой находятся пользователи такие как судья или админ
 class User(SqlAlchemyBase, UserMixin):
     __tablename__ = 'users'
 

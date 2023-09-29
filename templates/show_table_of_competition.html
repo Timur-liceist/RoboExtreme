@@ -16,12 +16,13 @@
     <div class="tabs">
         {% if started_of_competition%}
         <div class="tab active" onclick="changeTab(0)">Зарегистрированные</div>
-        <div class="tab" onclick="changeTab(1)">Итог</div>
+        <div class="tab" onclick="changeTab(1)">Жеребьёвка</div>
         {% endif %}
-        <div class="tab" onclick="changeTab(2)">Жеребьёвка</div>
+        <div class="tab" onclick="changeTab(2)">Итог</div>
     </div>
 
     <div class="tab-content active">
+<!--        Это таблица Зарегистрированных участников -->
         <table>
             <thead>
             <tr>
@@ -29,8 +30,8 @@
                 <th>ФИО наставника</th>
                 <th>ФИО первого участника</th>
                 <th>ФИО второго участника</th>
-                {% if user.is_authenticated %}
-                    {% if user.role_id == 1 %}
+                {% if current_user.is_authenticated %}
+                    {% if current_user.role_id == 1 %}
                         <th></th>
                     {% endif %}
                 {% endif %}
@@ -58,26 +59,46 @@
         </table>
     </div>
     <div class="tab-content">
+<!--        Это итоговая таблица -->
         <table>
             <thead>
             <tr>
+                <th>Порядковый номер</th>
                 <th>Название команды</th>
                 <th>ФИО Наставника</th>
                 <th>ФИО Первого участника</th>
                 <th>ФИО Второго участника</th>
+                {% if current_user.is_authenticated %}
+                    {% if current_user.role_id == 1 %}
+                        <th></th>
+                    {% endif %}
+                {% endif %}
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Круто!</td>
-                <td>Очилов Тимур Асланджонович</td>
-                <td>Очилов Тимур Асланджонович</td>
-                <td>Очилов Тимур Асланджонович</td>
-            </tr>
+                {% for team in members_random_queue %}
+                    <tr>
+                        <td>{{team.random_queue}}</td>
+                        <td>{{team.name_command}}</td>
+                        <td>{{team.manager}}</td>
+                        <td>{{team.last_name_first_member}} {{team.name_first_member}} {{team.middle_name_first_member}}</td>
+                        <td>{{team.last_name_second_member}} {{team.name_second_member}} {{team.middle_name_second_member}}</td>
+                        {% if current_user.is_authenticated %}
+                            {% if current_user.role_id == 1 %}
+                                <td>
+                                    <a href="/redact_team/{{ team.id }}">
+                                        <button class="green_button">Изменить</button>
+                                    </a>
+                                </td>
+                            {% endif %}
+                        {% endif %}
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
     <div class="tab-content">
+<!--        Это итоговая таблица -->
         <table>
             <thead>
             <tr>
@@ -95,22 +116,14 @@
             </tr>
             </thead>
             <tbody>
-            <!--            <tr>-->
-            <!--                <td>1</td>-->
-            <!--                <td>Круто!</td>-->
-            <!--                <td>Очилов Тимур Асланджонович</td>-->
-            <!--                <td>Очилов Тимур Асланджонович</td>-->
-            <!--                <td>Очилов Тимур Асланджонович</td>-->
-            <!--                <td>26</td>-->
-            <!--            </tr>-->
-
-            {% for team in final_members_of_competition%}
+            {% for team in final_members_of_competition %}
             <tr>
-                <td>{{team.members_random_queue}}</td>
+                <td>{{team.final_top}}</td>
                 <td>{{team.name_command}}</td>
                 <td>{{team.manager}}</td>
                 <td>{{team.last_name_first_member}} {{team.name_first_member}} {{team.middle_name_first_member}}</td>
                 <td>{{team.last_name_second_member}} {{team.name_second_member}} {{team.middle_name_second_member}}</td>
+                <td>{{team.final_score}}</td>
                 {% if current_user.is_authenticated %}
                     {% if current_user.role_id == 1 %}
                         <td>
@@ -125,6 +138,7 @@
             </tbody>
         </table>
     </div>
+<!--это случай если таблицу просматривает гость -->
 {% else %}
     <h2>Зарегистрированные</h2>
     <table>

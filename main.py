@@ -1,7 +1,7 @@
 import hashlib
 import datetime
 
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, request
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from werkzeug.utils import redirect
@@ -31,6 +31,8 @@ run_with_ngrok(app)
 app.secret_key = "roboExtreme"
 limiter = Limiter(get_remote_address, app=app)
 
+REQUESTS_TIME = "5/second"
+
 login_manager = LoginManager()
 
 login_manager.init_app(app)
@@ -39,14 +41,14 @@ login_manager.init_app(app)
 # Страница которая говорит о том что пользователь не имеет возможности создания соревнования
 # потому что у него нет роли "Администратор"
 @app.route("/message_about_that_you_are_not_a_administration")
-@limiter.limit("5/second")
+@limiter.limit(REQUESTS_TIME)
 def message_about_that_you_are_not_a_administration():
     return render_template("message_about_that_you_are_not_a_administration.html")
 
 
 # Создание нового соревнования
 @app.route("/create_new_competition", methods=["POST", "GET"])
-@limiter.limit("5/second")
+@limiter.limit(REQUESTS_TIME)
 def create_new_competition():
     if current_user.is_authenticated:
         if request.method == "POST":
@@ -57,7 +59,8 @@ def create_new_competition():
             new_competition.date = request.form["date_of_start_competition"]
             new_competition.date_of_ending_registration_members = request.form["date_of_ending_registration_members"]
             new_competition.commentary = request.form["commentary_for_competition"]
-            new_competition.date_of_startig_registration_members = request.form["date_of_starting_registration_members"]
+            new_competition.date_of_starting_registration_members = request.form[
+                "date_of_starting_registration_members"]
             new_competition.started = "not_started"
             new_competition.header_for_competition = request.form["header_for_competition"]
 
@@ -73,14 +76,12 @@ def create_new_competition():
         return redirect("/message_about_that_you_are_not_a_administration")
 
 
-
-
 # Главная страница сайта
 @app.route("/")
-@limiter.limit("5/second")
+@limiter.limit(REQUESTS_TIME)
 def main_page():
     sess = db_session.create_session()
-    competitions = sorted(sess.query(Competition).all(), key=lambda x: x.date)
+    competitions = sorted(sess.query(Competition).all(), key=lambda x: x.date, reverse=True)
 
     return render_template("main_page.html", competitions=competitions)
 
@@ -95,7 +96,7 @@ def load_user(user_id):
 
 # Выход пользователя из аккаунта в программе, и удаление current_user
 @app.route('/logout')
-@limiter.limit("5/second")
+@limiter.limit(REQUESTS_TIME)
 @login_required
 def logout():
     if not current_user.is_authenticated:
@@ -113,7 +114,7 @@ def hash_password(password):
 
 # Поставить соревнованию статус закончено или же началот
 @app.route("/to_end_this_competition/<string:end_or_start>/<int:id>", methods=["GET"])
-@limiter.limit("5/second")
+@limiter.limit(REQUESTS_TIME)
 def to_end_this_competition(end_or_start, id):
     if not current_user.is_authenticated:
         return redirect("/")
@@ -129,9 +130,10 @@ def to_end_this_competition(end_or_start, id):
 
     return redirect("/")
 
+
 # Авторизация пользователя
 @app.route("/login_user", methods=["GET", "POST"])
-@limiter.limit("5/second")
+@limiter.limit(REQUESTS_TIME)
 def login():
     if current_user.is_authenticated:
         return redirect("/")
@@ -179,14 +181,17 @@ def find_english_nominatation_name_by_id(name_of_nomination):
 
 # Ифнормация для судьи об соревновании которое он судит
 @app.route("/information_about_competition/<int:competition_id>/<string:nomination>/<int:number_of_launch>")
-@limiter.limit("5/second")
+@limiter.limit(REQUESTS_TIME)
 def information_about_competition(competition_id, nomination, number_of_launch):
     if not current_user.is_authenticated:
         return redirect("/")
 
     sess = db_session.create_session()
-    teams = sess.query(TeamDB).filter(TeamDB.competition_id == competition_id)
+    teams = sess.query(TeamDB).filter(TeamDB.competition_id == competition_id).all()
     competition = sess.query(Competition).filter(Competition.id == competition_id).first()
+
+    teams.sort(key=lambda x: x.random_queue)
+
     return render_template("page_about_competition.html",
                            teams=list(teams),
                            len=len,
@@ -195,30 +200,66 @@ def information_about_competition(competition_id, nomination, number_of_launch):
                            competition_id=competition_id,
                            nomination=nomination)
 
-# @app.route("/timer/<int:competition_id>/<string:nomination>/<int:number_of_launch>/<int:id_team>", methods=["POST"])
-# @limiter.limit("5/second")
-# def to_end_this_competition_POST(end_or_start, id):
-#     for i in request.form:
-#         print(i, "-", request.form[i])
-#     return redirect("/")
+
 # Страница дя судейства соревнования
-@app.route("/timer/<int:competition_id>/<string:nomination>/<int:number_of_launch>/<int:id_team>", methods=["GET", "POST"])
-@limiter.limit("5/second")
+@app.route("/timer/<int:competition_id>/<string:nomination>/<int:number_of_launch>/<string:id_team>",
+           methods=["GET", "POST"])
+@limiter.limit(REQUESTS_TIME)
 def timer(competition_id, nomination, number_of_launch, id_team):
+    id_team = int(id_team)
     if not current_user.is_authenticated:
         return redirect("/")
 
     if request.method == 'POST':
-        """
-            ***Здесь будут считаться баллы
-        """
-        return redirect(f"/timer/{competition_id}/{nomination}/{number_of_launch}/{id_team}")
+        score_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        print(request.form)
+        for i in request.form:
+            if i == "score_start":
+                score_list[0] += 3
+                continue
+            i = list(map(int, i.split("_")))
+            score_list[i[0]] += i[1] * const_data_json["affected_and_score"][const_data_json["list_of_affected"][i[0]]]
+
+        sess = db_session.create_session()
+        team = sess.query(TeamDB).filter(TeamDB.id == id_team).first()
+
+        if number_of_launch == 1:
+            team.first_score = ", ".join(list(map(str, score_list)))
+
+            team.final_score = sum(list(map(int, team.second_score.split(", ")))) + sum(score_list)
+            sess.commit()
+
+        elif number_of_launch == 2:
+            team.second_score = ", ".join(list(map(str, score_list)))
+            team.final_score = sum(list(map(int, team.first_score.split(", ")))) + sum(score_list)
+            sess.commit()
+
+        teams = sess.query(TeamDB).filter(TeamDB.competition_id == competition_id).all()
+        team = sess.query(TeamDB).filter(TeamDB.id == id_team).first()
+
+        for current_team in range(len(teams)):
+            if teams[current_team] == team:
+                if current_team == len(teams) - 1:
+                    if number_of_launch == 2:
+                        next_id_team = -1
+                    elif number_of_launch == 1:
+                        next_id_team = teams[0].id
+                        number_of_launch = 2
+                else:
+                    next_id_team = teams[current_team + 1].id
+        print(number_of_launch)
+        return redirect(f"/timer/{competition_id}/{nomination}/{number_of_launch}/{next_id_team}")
 
     if request.method == "GET":
+
+        if id_team == -1:
+            return redirect(f"/information_about_competition/{competition_id}/{nomination}/1")
+
         sess = db_session.create_session()
         teams = sess.query(TeamDB).filter(TeamDB.competition_id == competition_id).all()
         team = sess.query(TeamDB).filter(TeamDB.id == id_team).first()
-        print(team.name_command, 1)
+
+        teams.sort(key=lambda x: x.random_queue)
 
         return render_template("timer.html",
                                affected_persons=const_data_json["list_of_affected"],
@@ -232,7 +273,7 @@ def timer(competition_id, nomination, number_of_launch, id_team):
 
 # Админ может отредактировать команду в таблице
 @app.route("/redact_team/<int:team_id>", methods=["POST", "GET"])
-@limiter.limit("5/second")
+@limiter.limit(REQUESTS_TIME)
 def to_redact_this_team_by_admin(team_id):
     if current_user.is_authenticated:
 
@@ -264,9 +305,9 @@ def to_redact_this_team_by_admin(team_id):
             certificate_PFDO_second_member=current_team.certificate_PFDO_second_member
         )
         nom = find_nominatation_name_by_id(current_team.nomination)
-        print(nom)
-        print(current_team.nomination)
-        return render_template("registration_new_team.html", create_or_redact_team_form_html="redact", form=form, nom=nom)
+
+        return render_template("registration_new_team.html", create_or_redact_team_form_html="redact", form=form,
+                               nom=nom)
 
     elif request.method == "POST":
         current_team.name_command = request.form["name_command"]
@@ -294,16 +335,16 @@ def to_redact_this_team_by_admin(team_id):
 
 # Демонстрация таблиц "Итог", "Жеребьёвка", "Зарегистрированные"
 @app.route("/table/<string:nomination_name>/<int:id>")
-@limiter.limit("5/second")
+@limiter.limit(REQUESTS_TIME)
 def show_table(nomination_name, id):
     """
         ***Дать возможность админам изменять всё кроме баллов
     """
     nomination_id = find_nominatation_id_by_name(nomination_name)
     sess = db_session.create_session()
-    print(TeamDB.competition_id)
+
     members = sess.query(TeamDB).filter(TeamDB.nomination == nomination_id, TeamDB.competition_id == id)
-    print(members)
+
     competition = sess.query(Competition).filter(Competition.id == id).first()
 
     string_date, string_time = competition.date_of_ending_registration_members.split("T")
@@ -336,7 +377,7 @@ def show_table(nomination_name, id):
 
 # Регистрация команды на соревнование по id соревнования
 @app.route("/reg_team/<int:id>", methods=["GET", "POST"])
-@limiter.limit("5/second")
+@limiter.limit(REQUESTS_TIME)
 def reg_team(id):
     if current_user.is_authenticated:
         return redirect("/")
@@ -363,9 +404,10 @@ def reg_team(id):
         team.date_birthday_first_member = request.form["date_birthday_first_member"]
         team.final_top = -1
         team.final_score = 0
-        team.fisrt_score = ("0, " * 10)[:-2]
+        team.first_score = ("0, " * 10)[:-2]
         team.second_score = ("0, " * 10)[:-2]
         team.team_id = team.id
+        team.random_queue = -1
         team.nomination = request.form["nomination"]
 
         db_sess = db_session.create_session()
@@ -378,9 +420,7 @@ def reg_team(id):
         return render_template("registration_new_team.html", form=TeamForm(), create_or_redact_team_form_html="create")
 
 
-print("http://127.0.0.1:5000/timer")
-print("http://127.0.0.1:5000/timer/4/pilot/1/6")
-print("http://127.0.0.1:5000/information_about_competition/4/pilot")
+# http://127.0.0.1:5000
 if __name__ == "__main__":
     db_session.global_init("dataBase/database.db")
     app.run()

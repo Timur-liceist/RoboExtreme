@@ -1,7 +1,7 @@
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
+from .db_session import SqlAlchemyBase
 
-SqlAlchemyBase = declarative_base()
 
 class TeamDB(SqlAlchemyBase):
     __tablename__ = 'teams'

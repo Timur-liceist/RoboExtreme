@@ -173,27 +173,6 @@ login-container {
   background-color: #4682b4; /* светло-синий цвет для кнопки при наведении */
 }
 
-input[type="checkbox"] {
-  position: relative;
-  display: inline-block;
-  width: 20px; /* Укажите нужную ширину */
-  height: 20px; /* Укажите нужную высоту */
-}
-
-input[type="checkbox"]::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  border: 2px solid gray; /* Серый цвет рамки */
-  background-color: white; /* Белый цвет фона */
-}
-
-input[type="checkbox"]:checked::before {
-  background-color: blue; /* Синий цвет фона при выбранном состоянии */
-}
 .full-width-button {
     display: inline-block;
     width: 100vw;
