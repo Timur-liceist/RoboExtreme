@@ -27,7 +27,7 @@ import random
 
 # from flask_ngrok import run_with_ngrok
 
-with open(".\data\const_data.json", "r", encoding="utf-8") as file:
+with open("./data/const_data.json", "r", encoding="utf-8") as file:
     file_contents = file.read()
     const_data_json = json.loads(file_contents)
 app = Flask(__name__)
