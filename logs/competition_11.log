@@ -1,0 +1,12 @@
+2023-10-09 21:36:46,444 - competition_11 - INFO - score=3 for start from zone A for team '7 бит' with id=14 at nomination 'pilot'
+2023-10-09 21:36:46,444 - competition_11 - INFO - score=3(with coefficient = 3) for affected 'Aslan' for team '7 бит' with id=14 at nomination 'pilot'
+2023-10-09 21:36:46,444 - competition_11 - INFO - score=6(with coefficient = 6) for affected 'Aslan' for team '7 бит' with id=14 at nomination 'pilot'
+2023-10-09 21:36:46,444 - competition_11 - INFO - score=9(with coefficient = 45) for affected 'Vakhtang' for team '7 бит' with id=14 at nomination 'pilot'
+2023-10-09 21:36:46,452 - competition_11 - INFO - score=13(with coefficient = 65) for affected 'Vakhtang' for team '7 бит' with id=14 at nomination 'pilot'
+2023-10-09 21:36:46,475 - competition_11 - INFO - team '7 бит' finished the second race with a score = 122 and time of race 300 sec
+2023-10-09 21:40:34,259 - competition_11 - INFO - score=3 for start from zone A for team 'Черепашки25' with id=13 at nomination 'pilot'
+2023-10-09 21:40:34,266 - competition_11 - INFO - score=3(with coefficient = 3) for affected 'Aslan' for team 'Черепашки25' with id=13 at nomination 'pilot'
+2023-10-09 21:40:34,267 - competition_11 - INFO - score=6(with coefficient = 6) for affected 'Aslan' for team 'Черепашки25' with id=13 at nomination 'pilot'
+2023-10-09 21:40:34,269 - competition_11 - INFO - score=6(with coefficient = 6) for affected 'Batraz' for team 'Черепашки25' with id=13 at nomination 'pilot'
+2023-10-09 21:40:34,269 - competition_11 - INFO - score=9(with coefficient = 9) for affected 'Batraz' for team 'Черепашки25' with id=13 at nomination 'pilot'
+2023-10-09 21:40:34,271 - competition_11 - INFO - team 'Черепашки25' finished the first race with a score = 27 and time of race 224

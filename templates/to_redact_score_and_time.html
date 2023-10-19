@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+
+          th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+          }
+
+          th {
+            background-color: #f0f0f0;
+          }
+</style>
+<body>
+    {% if team.nomination == 1 %}
+        <a href="/table/pilot/{{team.competition_id}}">
+            <button class="green_button" style="width: 20%;">
+                Таблица<br><==
+            </button>
+        </a>
+    {% else %}
+        <a href="/table/autopilot/{{team.competition_id}}">
+            <button class="green_button" style="width: 20%;">
+                Таблица<br><==
+            </button>
+        </a>
+    {% endif %}
+
+    <div align="center">
+        {% if number_of_launch == 1 %}
+            <a href="/to_redact_score_and_time_of_race/{{team.id}}/2">
+                <button class="green_button" style="width: 30%;">Второй заезд</button>
+            </a>
+        {% else %}
+            <a href="/to_redact_score_and_time_of_race/{{team.id}}/1">
+                <button class="green_button" style="width: 30%;">Первый заезд</button>
+            </a>
+        {% endif %}
+    </div>
+    <form id="form_for_timer_for_competition" method="POST">
+        <table>
+                <tr>
+                    <td colspan="5">
+                        <div align="center">
+                            <button class="btn btn-reset" type="submit" form="form_for_timer_for_competition" style="background-color: green; border-color: yellow;"><font color="yellow">Сохранить</font></button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div align="center">
+                            {% if team.nomination == 1 %}
+                                <label for="minutes">Минуты: </label>
+                                <input type="number" id="minutes" form="form_for_timer_for_competition" name="minutes" value="{{ minutes }}" min="0" align="center" max="5">
+                                <label for="seconds">Секунды: </label>
+                                <input type="number" id="seconds" form="form_for_timer_for_competition" name="seconds" value="{{ seconds }}" min="0" align="center" max="60">
+                            {% else %}
+                                <label for="minutes">Минуты: </label>
+                                <input type="number" id="minutes" form="form_for_timer_for_competition" name="minutes" value="{{ minutes }}" min="0" align="center" max="10">
+                                <label for="seconds">Секунды: </label>
+                                <input type="number" id="seconds" form="form_for_timer_for_competition" name="seconds" value="{{ seconds }}" min="0" align="center" max="60">
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    {% if team.name_command.__len__() > 30 %}
+                        <th colspan="5">
+                            <div align="center">
+                                {{team.name_command[:30] + "..."}}
+                            </div>
+                        </th>
+                    {% else %}
+                        <th colspan="5">
+                            <div align="center">
+                                {{team.name_command}}
+                            </div>
+                        </th>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th colspan="5">
+                        <div align="center">
+                            {% if number_of_launch == 1 %}
+                                <h3>Первый заезд</h3>
+                            {% else %}
+                                <h3>Второй заезд</h3>
+                            {% endif %}
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        {% if "score_start" in list_logs_score %}
+                            <input type="checkbox" id="score_start" value="3" name="score_start" form="form_for_timer_for_competition" checked>
+                            <label for="score_start">Старт из зоны "A"</label>
+                        {% else %}
+                            <input type="checkbox" id="score_start" value="3" name="score_start" form="form_for_timer_for_competition">
+                            <label for="score_start">Старт из зоны "A"</label>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <div align="center">
+                            Пострадавший
+                        </div>
+                    </th>
+
+                    <th>
+                        <div align="center">3
+                        </div>
+                    </th>
+                    <th>
+                        <div align="center">6
+                        </div>
+                    </th>
+                    <th>
+                        <div align="center">9
+                        </div>
+                    </th>
+                    <th>
+                        <div align="center">13
+                        </div>
+                    </th>
+        <!--                <th>Имя пострадавшего</th>-->
+        <!--                <th>Достиг без захвата<br>3</th>-->
+        <!--                <th>Достиг, Захватил, выронил<br>6</th>-->
+        <!--                <th>Достиг, захватил, выронил, вернулся в старт<br>9</th>-->
+        <!--                <th>Доставка пострадавшего в старт<br>13</th>-->
+                </tr>
+                <tbody>
+                {% for index_person in range(affected_persons.__len__()) %}
+                <tr>
+                    <td>{{affected_persons[index_person]}}</td>
+                    <td>
+                        {% if str(index_person) + "_3" in list_logs_score %}
+                            <input type="checkbox" id="affected_{{index_person}}_for_score_3" form="form_for_timer_for_competition" name="{{index_person}}_3" value="3" style="width: 30px; heigh: 30px" checked>
+                        {% else %}
+                            <input type="checkbox" id="affected_{{index_person}}_for_score_3" form="form_for_timer_for_competition" name="{{index_person}}_3" value="3" style="width: 30px; heigh: 30px">
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if str(index_person) + "_6" in list_logs_score %}
+                            <input type="checkbox" id="affected_{{index_person}}_for_score_6" form="form_for_timer_for_competition" name="{{index_person}}_6" value="6" style="width: 30px; heigh: 30px" checked>
+                        {% else %}
+                            <input type="checkbox" id="affected_{{index_person}}_for_score_6" form="form_for_timer_for_competition" name="{{index_person}}_6" value="6" style="width: 30px; heigh: 30px">
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if str(index_person) + "_9" in list_logs_score %}
+                            <input type="checkbox" id="affected_{{index_person}}_for_score_9" form="form_for_timer_for_competition" name="{{index_person}}_9" value="9" style="width: 30px; heigh: 30px" checked>
+                        {% else %}
+                            <input type="checkbox" id="affected_{{index_person}}_for_score_9" form="form_for_timer_for_competition" name="{{index_person}}_9" value="9" style="width: 30px; heigh: 30px">
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if str(index_person) + "_13" in list_logs_score %}
+                            <input type="checkbox" id="affected_{{index_person}}_for_score_13" form="form_for_timer_for_competition" name="{{index_person}}_13" value="13" style="width: 30px; heigh: 30px" checked>
+                        {% else %}
+                            <input type="checkbox" id="affected_{{index_person}}_for_score_13" form="form_for_timer_for_competition" name="{{index_person}}_13" value="13" style="width: 30px; heigh: 30px">
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+        </table>
+    </form>
+</body>
+{% endblock %}

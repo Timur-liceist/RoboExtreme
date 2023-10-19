@@ -29,3 +29,7 @@ class TeamDB(SqlAlchemyBase):
     final_top = sqlalchemy.Column(sqlalchemy.Integer)
     final_score = sqlalchemy.Column(sqlalchemy.Integer)
     random_queue = sqlalchemy.Column(sqlalchemy.Integer)
+    time_of_first_race = sqlalchemy.Column(sqlalchemy.Integer)
+    time_of_second_race = sqlalchemy.Column(sqlalchemy.Integer)
+    list_logs_score_of_first_race = sqlalchemy.Column(sqlalchemy.Text)
+    list_logs_score_of_second_race = sqlalchemy.Column(sqlalchemy.Text)

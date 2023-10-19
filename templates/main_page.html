@@ -42,7 +42,7 @@
                 <a href="/table/pilot/{{competition.id}}">
                     <button class="green_button">Таблица</button>
                 </a>
-                {% if not current_user.is_authenticated %}
+                {% if not current_user.is_authenticated and strptime(competition.date_of_ending_registration_members, "%Y-%m-%dT%H:%M") > now_datetime and strptime(competition.date_of_starting_registration_members, "%Y-%m-%dT%H:%M") < now_datetime %}
                     <a href="/reg_team/{{competition.id}}">
                         <button class="green_button">Зарегистрировать команду</button>
                     </a>
@@ -51,8 +51,10 @@
                         <a href="/to_end_this_competition/ended/{{ competition.id }}">
                             <button class="green_button">Закончить соревнование</button>
                         </a>
+                        <a href="/redact_random_queue/{{ competition.id }}/pilot">
+                            <button class="green_button">Исправить жеребьёвку</button>
+                        </a>
                     {% elif competition.started == "not_started" or competition.started == "ended" %}
-
                         <a href="/to_end_this_competition/started/{{ competition.id }}">
                             <button class="green_button">Начать соревнование</button>
                         </a>

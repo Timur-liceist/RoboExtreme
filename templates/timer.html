@@ -173,7 +173,7 @@
             {% if len(current_team.name_command) > 30 %}
                 {% if current_team.id == team.id %}
                     <a href="/timer/{{competition_id}}/{{nomination}}/{{number_of_launch}}/{{current_team.id}}">
-                        <button class="menu-button">{{ current_team.name_command[:30] + "...✔" }}</button>
+                        <button class="menu-button"><font color="yellow">{{ current_team.name_command[:30] + "..." + "✔" }}</font></button>
                     </a>
                 {% else %}
                     <a href="/timer/{{competition_id}}/{{nomination}}/{{number_of_launch}}/{{current_team.id}}">
@@ -183,7 +183,7 @@
             {% else %}
                 {% if current_team.id == team.id %}
                     <a href="/timer/{{competition_id}}/{{nomination}}/{{number_of_launch}}/{{current_team.id}}">
-                        <button class="menu-button">{{ current_team.name_command + "✔" }}</button>
+                        <button class="menu-button"><font color="yellow">{{ current_team.name_command + "✔" }}</font></button>
                     </a>
                 {% else %}
                     <a href="/timer/{{competition_id}}/{{nomination}}/{{number_of_launch}}/{{current_team.id}}">
@@ -204,6 +204,12 @@
     </div>
 
     <form method="POST" id="form_for_timer_for_competition">
+
+        {% if nomination == "autopilot" %}
+            <input type="hidden" name="time_of_launch" id="time_of_launch" value="600">
+        {% else %}
+            <input type="hidden" name="time_of_launch" id="time_of_launch" value="300">
+        {% endif %}
 <!--        <img style="margin-left: 25%;"src="{{url_for('static',filename='img/img.png')}}">-->
         <div style="display: flex;">
         <table style="margin-top: 0%; margin-left: 70%; margin-top: 20px" >
@@ -232,7 +238,7 @@
             <tr>
                 <td colspan="5">
                     <input type="checkbox" id="score_start" value="3" name="score_start" form="form_for_timer_for_competition">
-                    <label for="score_3">Старт из зоны "A"</label>
+                    <label for="score_start">Старт из зоны "A"</label>
                 </td>
             </tr>
             <tr>
@@ -269,20 +275,20 @@
             <tr>
                 <td>{{affected_persons[index_person]}}</td>
                 <td>
-                    <input type="checkbox" id="score_3" form="form_for_timer_for_competition" name="{{index_person}}_3" value="3" style="width: 30px; heigh: 30px">
+                    <input type="checkbox" id="affected_{{index_person}}_for_score_3" form="form_for_timer_for_competition" name="{{index_person}}_3" value="3" style="width: 30px; heigh: 30px">
     <!--                    <label for="score_3">Huey</label>-->
                 </td>
                 <td>
-                    <input type="checkbox" id="score_6" form="form_for_timer_for_competition" name="{{index_person}}_6" value="6" style="width: 30px; heigh: 30px">
+                    <input type="checkbox" id="affected_{{index_person}}_for_score_6" form="form_for_timer_for_competition" name="{{index_person}}_6" value="6" style="width: 30px; heigh: 30px">
     <!--                    <label for="score_6">Huey</label>-->
                 </td>
                 <td>
-                    <input type="checkbox" id="score_9" form="form_for_timer_for_competition" name="{{index_person}}_9" value="9" style="width: 30px; heigh: 30px">
+                    <input type="checkbox" id="affected_{{index_person}}_for_score_9" form="form_for_timer_for_competition" name="{{index_person}}_9" value="9" style="width: 30px; heigh: 30px">
     <!--                    <label for="score_9">Huey</label>-->
-                </td>O)
+                </td>
                 <td>
 
-                    <input type="checkbox" id="score_13" form="form_for_timer_for_competition" name="{{index_person}}_13" value="13" style="width: 30px; heigh: 30px;">
+                    <input type="checkbox" id="affected_{{index_person}}_for_score_13" form="form_for_timer_for_competition" name="{{index_person}}_13" value="13" style="width: 30px; heigh: 30px;">
     <!--                    <label for="score_13">Huey</label>-->
                 </td>
             </tr>
@@ -296,7 +302,7 @@
 
 <div class="timer-container">
     <div class="timer-state" id="timerState">Таймер остановлен</div>
-    <div class="timer" id="timer">5:00</div>
+    <div class="timer" id="timer" name="time_of_launch" form="form_for_timer_for_competition">5:00</div>
     <div class="btn-container">
       <button class="btn btn-start"  type="button" id="startButton">Продолжить</button>
       <button class="btn btn-pause" type="button" id="pauseButton">Пауза</button>
@@ -308,8 +314,6 @@
 <audio id="audio_end" src="{{ url_for('static',filename='sounds/end_of_timer.mp3') }}"></audio>
 </body>
 
-
-
 <script>
   let timerInterval;
   {% if nomination == "autopilot" %}
@@ -317,7 +321,10 @@
   {% else %}
       let TIMELEFT = 300
   {% endif %}
+  var time_of_launch = document.getElementById('time_of_launch');
   let timeLeft = TIMELEFT;
+
+  time_of_launch.value = timeLeft;
   let isTimerRunning = false;
 
   const timerElement = document.getElementById('timer');
@@ -348,6 +355,7 @@
       timerInterval = setInterval(() => {
         if (timeLeft > 0) {
           timeLeft--;
+          time_of_launch.value = timeLeft;
           updateTimer();
         } else {
           clearInterval(timerInterval);
@@ -384,6 +392,7 @@
   resetButton.addEventListener('click', () => {
     clearInterval(timerInterval);
     timeLeft = TIMELEFT;
+    time_of_launch.value = timeLeft;
     updateTimer();
     timerStateElement.textContent = 'Таймер сброшен';
     audio.pause();

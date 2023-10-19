@@ -31,9 +31,7 @@
                 <th>ФИО первого участника</th>
                 <th>ФИО второго участника</th>
                 {% if current_user.is_authenticated %}
-                    {% if current_user.role_id == 1 %}
-                        <th></th>
-                    {% endif %}
+                    <th></th>
                 {% endif %}
             </tr>
             </thead>
@@ -48,6 +46,12 @@
                     {% if current_user.role_id == 1 %}
                         <td>
                             <a href="/redact_team/{{ team.id }}">
+                                <button class="green_button">Изменить</button>
+                            </a>
+                        </td>
+                    {% elif current_user.role_id == 2 %}
+                        <td>
+                            <a href="/to_redact_score_and_time_of_race/{{ team.id }}/1">
                                 <button class="green_button">Изменить</button>
                             </a>
                         </td>
@@ -69,9 +73,7 @@
                 <th>ФИО Первого участника</th>
                 <th>ФИО Второго участника</th>
                 {% if current_user.is_authenticated %}
-                    {% if current_user.role_id == 1 %}
-                        <th></th>
-                    {% endif %}
+                    <th></th>
                 {% endif %}
             </tr>
             </thead>
@@ -90,7 +92,13 @@
                                         <button class="green_button">Изменить</button>
                                     </a>
                                 </td>
-                            {% endif %}
+                        {% elif current_user.role_id == 2 %}
+                            <td>
+                                <a href="/to_redact_score_and_time_of_race/{{ team.id }}/1">
+                                    <button class="green_button">Изменить</button>
+                                </a>
+                            </td>
+                        {% endif %}
                         {% endif %}
                     </tr>
                 {% endfor %}
@@ -109,9 +117,7 @@
                 <th>ФИО Второго участника</th>
                 <th>Балл</th>
                 {% if current_user.is_authenticated %}
-                    {% if current_user.role_id == 1 %}
                         <th></th>
-                    {% endif %}
                 {% endif %}
             </tr>
             </thead>
@@ -128,6 +134,12 @@
                     {% if current_user.role_id == 1 %}
                         <td>
                             <a href="/redact_team/{{ team.id }}">
+                                <button class="green_button">Изменить</button>
+                            </a>
+                        </td>
+                    {% elif current_user.role_id == 2 %}
+                        <td>
+                            <a href="/to_redact_score_and_time_of_race/{{ team.id }}/1">
                                 <button class="green_button">Изменить</button>
                             </a>
                         </td>
@@ -149,9 +161,7 @@
             <th>ФИО первого участника</th>
             <th>ФИО второго участника</th>
             {% if current_user.is_authenticated %}
-                {% if current_user.role_id == 1 %}
-                    <th></th>
-                {% endif %}
+                <th></th>
             {% endif %}
         </tr>
         </thead>
@@ -166,6 +176,12 @@
                 {% if current_user.role_id == 1 %}
                     <td>
                         <a href="/redact_team/{{ team.id }}">
+                            <button class="green_button">Изменить</button>
+                        </a>
+                    </td>
+                {% elif current_user.role_id == 2%}
+                    <td>
+                        <a href="/to_redact_score_and_time_of_race/{{ team.id }}/1">
                             <button class="green_button">Изменить</button>
                         </a>
                     </td>

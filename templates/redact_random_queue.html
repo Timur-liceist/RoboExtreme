@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+<p align="center">
+<div>
+    {% if nomination_show == "Пилот" %}
+    <a href="/redact_random_queue/{{competition_id}}/autopilot">
+        <button class="green_button" type="button" style="width: 30%">Посaмотреть номинацию "Автопилот"</button></a>
+    {% else %}
+    <a href="/redact_random_queue/{{competition_id}}/pilot">
+        <button class="green_button" type="button" style="width: 30%">Посмотреть номинацию "Пилот"</button></a>
+    {% endif %}
+</div>
+
+<div>
+    <button class="green_button" type="submit" form="form_for_redact_random_queue" style="width: 30%;">Сохранить изменения</button>
+</div>
+</p>
+{% if is_error %}
+    <div align="center">
+        <h3><font color="red">{{message}}</font></h3>
+    </div>
+{% endif %}
+
+
+<h2 align="center">Таблица для номинации "{{ nomination_show }}"</h2>
+<form id="form_for_redact_random_queue" method="POST">
+<table>
+    <thead>
+    <tr>
+        <th>Порядковый номер</th>
+        <th>Название команды</th>
+        <th>ФИО Наставника</th>
+        <th>ФИО Первого участника</th>
+        <th>ФИО Второго участника</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for team in teams %}
+            <tr>
+                {% if is_error %}
+                    <td><input value="{{dict_of_last_values[str(team.id)]}}" type="text" name="{{team.id}}" id="{{team.id}}" form="form_for_redact_random_queue"></td>
+                {% else %}
+                    <td><input value="{{team.random_queue}}" type="text" name="{{team.id}}" id="{{team.id}}" form="form_for_redact_random_queue"></td>
+                {% endif %}
+                <td>{{team.name_command}}</td>
+                <td>{{team.manager}}</td>
+                <td>{{team.last_name_first_member}} {{team.name_first_member}} {{team.middle_name_first_member}}</td>
+                <td>{{team.last_name_second_member}} {{team.name_second_member}} {{team.middle_name_second_member}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Соревнования</title>
+</head>
+</html>
+</form>
+{% endblock %}

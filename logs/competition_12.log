@@ -1,0 +1,20 @@
+2023-10-13 20:45:56,906 - competition_12 - INFO - score=3 for start from zone A for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:45:56,910 - competition_12 - INFO - score=3(with coefficient = 3) for affected 'Aslan' for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:45:56,911 - competition_12 - INFO - score=6(with coefficient = 6) for affected 'Aslan' for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:45:56,912 - competition_12 - INFO - score=9(with coefficient = 9) for affected 'Batraz' for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:45:56,914 - competition_12 - INFO - team 'Черепашки2' finished the first race with a score = 21 and time of race 300
+2023-10-13 20:51:49,492 - competition_12 - INFO - score=3 for start from zone A for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:51:49,493 - competition_12 - INFO - score=3(with coefficient = 3) for affected 'Aslan' for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:51:49,493 - competition_12 - INFO - score=6(with coefficient = 6) for affected 'Aslan' for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:51:49,493 - competition_12 - INFO - score=9(with coefficient = 9) for affected 'Batraz' for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:51:49,493 - competition_12 - INFO - team 'Черепашки2' finished the first race with a score = 21 and time of race 300
+2023-10-13 20:52:39,656 - competition_12 - INFO - score=3 for start from zone A for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:52:39,658 - competition_12 - INFO - score=3(with coefficient = 3) for affected 'Aslan' for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:52:39,659 - competition_12 - INFO - score=6(with coefficient = 6) for affected 'Aslan' for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:52:39,659 - competition_12 - INFO - score=9(with coefficient = 9) for affected 'Batraz' for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:52:39,661 - competition_12 - INFO - team 'Черепашки2' finished the first race with a score = 21 and time of race 300
+2023-10-13 20:53:12,162 - competition_12 - INFO - score=3 for start from zone A for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:53:12,164 - competition_12 - INFO - score=3(with coefficient = 3) for affected 'Aslan' for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:53:12,164 - competition_12 - INFO - score=6(with coefficient = 6) for affected 'Aslan' for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:53:12,164 - competition_12 - INFO - score=9(with coefficient = 9) for affected 'Batraz' for team 'Черепашки2' with id=22 at nomination 'pilot'
+2023-10-13 20:53:12,167 - competition_12 - INFO - team 'Черепашки2' finished the first race with a score = 21 and time of race 297
