@@ -692,6 +692,6 @@ def reg_team(competition_id):
 
 
 # http://127.0.0.1:5000
-if __name__ == "__main__":
-    db_session.global_init("dataBase/database.db")
-    app.run()
+# if __name__ == "__main__":
+db_session.global_init("dataBase/database.db")
+app.run()

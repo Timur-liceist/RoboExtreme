@@ -1,1 +1,1 @@
-print([1, 2, 3].remove(1))
+print(__name__)
