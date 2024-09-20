@@ -1,9 +1,10 @@
-from sqlalchemy import Column, Integer, Text
+from sqlalchemy import Column, Integer, Text, func, DateTime
 from .db_session import SqlAlchemyBase
+
 
 # Таблица БД в которой находятся соревнования
 class Competition(SqlAlchemyBase):
-    __tablename__ = 'competition'
+    __tablename__ = "competition"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(Text)

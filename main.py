@@ -18,6 +18,8 @@ from forms.LoginForm import LoginForm
 from forms.NewCompetition import NewCompetition
 from forms.RegTeamForm import TeamForm
 
+from flask_paginate import Pagination
+
 import logging
 import os
 
@@ -110,10 +112,16 @@ def create_new_competition():
 @app.route("/")
 @limiter.limit(REQUESTS_TIME)
 def main_page():
+    page = request.args.get("page", type=int, default=1)
     sess = db_session.create_session()
     competitions = sorted(sess.query(Competition).all(), key=lambda x: x.date, reverse=True)
     now_datetime = datetime.datetime.now()
-    return render_template("main_page.html", competitions=competitions, strptime=datetime.datetime.strptime, now_datetime=now_datetime)
+    # pagination_competitions = Pagination(page=page, per_page=7, total=competitions.__len__())
+    # for i in pagination_competitions.items:
+    #     print(i)
+    return render_template("main_page.html", competitions=competitions, strptime=datetime.datetime.strptime,
+                           now_datetime=now_datetime)
+    # ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_get_single_page_link', 'first_page', 'info', 'init_values', 'last_page', 'links', 'next_page', 'page_href', 'pages', 'prev_page', 'single_page']
 
 
 # Авторизация аккаунта пользователя в программе и определение current_user
@@ -148,6 +156,7 @@ def generate_random_array(n):
     random.shuffle(numbers)
 
     return numbers
+
 
 @app.route("/to_redact_score_and_time_of_race/<int:team_id>/<int:number_of_launch>", methods=["GET", "POST"])
 @limiter.limit(REQUESTS_TIME)
@@ -184,9 +193,10 @@ def to_redact_score_and_time_of_race(team_id, number_of_launch):
             minutes = time_of_race // 60
         except TypeError:
             minutes = 5
-            seconds= 30
+            seconds = 30
         return render_template("to_redact_score_and_time.html", list_logs_score=list_logs_score,
-                               team=team, affected_persons=affected_persons, minutes=minutes, seconds=seconds, number_of_launch=number_of_launch, str=str)
+                               team=team, affected_persons=affected_persons, minutes=minutes, seconds=seconds,
+                               number_of_launch=number_of_launch, str=str)
 
     elif request.method == "POST":
         for key in request.form:
@@ -224,7 +234,7 @@ def to_redact_score_and_time_of_race(team_id, number_of_launch):
             sess.commit()
 
         elif number_of_launch == 2:
-            team.list_logs_score_of_first_race = ", ".join(list_logs_score)
+            team.list_logs_score_of_second_race = ", ".join(list_logs_score)
             team.second_score = ", ".join(list(map(str, score_list)))
             team.final_score = sum(list(map(int, team.first_score.split(", ")))) + sum(score_list)
 
@@ -232,10 +242,7 @@ def to_redact_score_and_time_of_race(team_id, number_of_launch):
 
             sess.commit()
 
-
         return redirect(f"/table/{find_english_nominatation_name_by_id(team.nomination)}/{team.competition_id}")
-
-
 
 
 # Поставить соревнованию статус закончено или же началот
@@ -256,7 +263,8 @@ def to_end_this_competition(end_or_start, competition_id):
     sess.commit()
 
     if end_or_start == "started":
-        teams_from_pilot = sess.query(TeamDB).filter(TeamDB.competition_id==competition_id, TeamDB.nomination==1).all()
+        teams_from_pilot = sess.query(TeamDB).filter(TeamDB.competition_id == competition_id,
+                                                     TeamDB.nomination == 1).all()
         indexes_randomy_list = generate_random_array(len(teams_from_pilot))
 
         for index_of_current_team in range(len(teams_from_pilot)):
@@ -264,7 +272,8 @@ def to_end_this_competition(end_or_start, competition_id):
 
         sess.commit()
 
-        teams_from_autopilot = sess.query(TeamDB).filter(TeamDB.competition_id == competition_id, TeamDB.nomination == 2).all()
+        teams_from_autopilot = sess.query(TeamDB).filter(TeamDB.competition_id == competition_id,
+                                                         TeamDB.nomination == 2).all()
         indexes_randomy_list = generate_random_array(len(teams_from_autopilot))
 
         for index_of_current_team in range(len(teams_from_autopilot)):
@@ -348,7 +357,8 @@ def redact_random_queue(competition_id, nomination):
 
     sess = db_session.create_session()
     print(find_nominatation_id_by_name(nomination), type(find_nominatation_id_by_name(nomination)))
-    teams = sess.query(TeamDB).filter(TeamDB.competition_id == competition_id, TeamDB.nomination == find_nominatation_id_by_name(nomination)).all()
+    teams = sess.query(TeamDB).filter(TeamDB.competition_id == competition_id,
+                                      TeamDB.nomination == find_nominatation_id_by_name(nomination)).all()
     for i in teams:
         print(i.nomination)
     if request.method == "GET":
@@ -382,7 +392,8 @@ def redact_random_queue(competition_id, nomination):
             print("Commit!")
             sess.commit()
             return redirect("/")
-        return render_template("redact_random_queue.html", str=str, teams=teams, message=message, is_error=True, dict_of_last_values=request.form, competition_id=competition_id,
+        return render_template("redact_random_queue.html", str=str, teams=teams, message=message, is_error=True,
+                               dict_of_last_values=request.form, competition_id=competition_id,
                                nomination_show=find_nominatation_name_by_id(find_nominatation_id_by_name(nomination)))
 
 
@@ -436,7 +447,7 @@ def timer(competition_id, nomination, number_of_launch, id_team):
     if request.method == 'POST':
         score_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         sess = db_session.create_session()
-        teams = sess.query(TeamDB).filter(  TeamDB.competition_id == competition_id).all()
+        teams = sess.query(TeamDB).filter(TeamDB.competition_id == competition_id).all()
         team = sess.query(TeamDB).filter(TeamDB.id == id_team).first()
         time_of_launch = None
         list_logs_score = []
@@ -484,7 +495,7 @@ def timer(competition_id, nomination, number_of_launch, id_team):
             sess.commit()
 
         elif number_of_launch == 2:
-            team.list_logs_score_of_first_race = ", ".join(list_logs_score)
+            team.list_logs_score_of_second_race = ", ".join(list_logs_score)
             team.second_score = ", ".join(list(map(str, score_list)))
             team.final_score = sum(list(map(int, team.first_score.split(", ")))) + sum(score_list)
 
@@ -532,7 +543,6 @@ def timer(competition_id, nomination, number_of_launch, id_team):
 @app.route("/redact_team/<int:team_id>", methods=["POST", "GET"])
 @limiter.limit(REQUESTS_TIME)
 def to_redact_this_team_by_admin(team_id):
-
     if current_user.is_authenticated:
 
         if current_user.role_id == 2:
@@ -692,6 +702,6 @@ def reg_team(competition_id):
 
 
 # http://127.0.0.1:5000
-# if __name__ == "__main__":
-db_session.global_init("dataBase/database.db")
-# app.run()
+if __name__ == "__main__":
+    db_session.global_init("dataBase/database.db")
+    app.run()

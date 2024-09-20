@@ -1,0 +1,35 @@
+2024-09-18 23:07:43,531 - competition_15 - INFO - score=3 for start from zone A for team 'Черепашки1' with id=29 at nomination 'pilot'
+2024-09-18 23:07:43,538 - competition_15 - INFO - score=3(with coefficient = 3) for affected 'Aslan' for team 'Черепашки1' with id=29 at nomination 'pilot'
+2024-09-18 23:07:43,540 - competition_15 - INFO - score=6(with coefficient = 6) for affected 'Aslan' for team 'Черепашки1' with id=29 at nomination 'pilot'
+2024-09-18 23:07:43,542 - competition_15 - INFO - score=9(with coefficient = 9) for affected 'Aslan' for team 'Черепашки1' with id=29 at nomination 'pilot'
+2024-09-18 23:07:43,544 - competition_15 - INFO - score=13(with coefficient = 13) for affected 'Aslan' for team 'Черепашки1' with id=29 at nomination 'pilot'
+2024-09-18 23:07:43,544 - competition_15 - INFO - score=3(with coefficient = 3) for affected 'Batraz' for team 'Черепашки1' with id=29 at nomination 'pilot'
+2024-09-18 23:07:43,544 - competition_15 - INFO - team 'Черепашки1' finished the first race with a score = 37 and time of race 295
+2024-09-18 23:07:50,946 - competition_15 - INFO - score=3(with coefficient = 3) for affected 'Aslan' for team 'Черепашки2' with id=30 at nomination 'pilot'
+2024-09-18 23:07:50,949 - competition_15 - INFO - score=6(with coefficient = 6) for affected 'Aslan' for team 'Черепашки2' with id=30 at nomination 'pilot'
+2024-09-18 23:07:50,950 - competition_15 - INFO - team 'Черепашки2' finished the first race with a score = 9 and time of race 300
+2024-09-18 23:07:58,397 - competition_15 - INFO - score=3(with coefficient = 3) for affected 'Aslan' for team 'Черепашки3' with id=31 at nomination 'pilot'
+2024-09-18 23:07:58,399 - competition_15 - INFO - score=6(with coefficient = 6) for affected 'Aslan' for team 'Черепашки3' with id=31 at nomination 'pilot'
+2024-09-18 23:07:58,401 - competition_15 - INFO - score=6(with coefficient = 6) for affected 'Batraz' for team 'Черепашки3' with id=31 at nomination 'pilot'
+2024-09-18 23:07:58,402 - competition_15 - INFO - team 'Черепашки3' finished the first race with a score = 15 and time of race 300
+2024-09-18 23:08:04,986 - competition_15 - INFO - score=6(with coefficient = 6) for affected 'Batraz' for team 'Черепашки1' with id=29 at nomination 'pilot'
+2024-09-18 23:08:04,987 - competition_15 - INFO - score=9(with coefficient = 9) for affected 'Batraz' for team 'Черепашки1' with id=29 at nomination 'pilot'
+2024-09-18 23:08:04,988 - competition_15 - INFO - score=13(with coefficient = 13) for affected 'Batraz' for team 'Черепашки1' with id=29 at nomination 'pilot'
+2024-09-18 23:08:04,990 - competition_15 - INFO - team 'Черепашки1' finished the second race with a score = 28 and time of race 300 sec
+2024-09-18 23:08:10,013 - competition_15 - INFO - score=6(with coefficient = 6) for affected 'Batraz' for team 'Черепашки2' with id=30 at nomination 'pilot'
+2024-09-18 23:08:10,013 - competition_15 - INFO - score=3(with coefficient = 15) for affected 'Vakhtang' for team 'Черепашки2' with id=30 at nomination 'pilot'
+2024-09-18 23:08:10,017 - competition_15 - INFO - score=6(with coefficient = 30) for affected 'Vakhtang' for team 'Черепашки2' with id=30 at nomination 'pilot'
+2024-09-18 23:08:10,018 - competition_15 - INFO - team 'Черепашки2' finished the second race with a score = 51 and time of race 300 sec
+2024-09-18 23:08:15,841 - competition_15 - INFO - score=6(with coefficient = 6) for affected 'Batraz' for team 'Черепашки3' with id=31 at nomination 'pilot'
+2024-09-18 23:08:15,843 - competition_15 - INFO - score=6(with coefficient = 30) for affected 'Vakhtang' for team 'Черепашки3' with id=31 at nomination 'pilot'
+2024-09-18 23:08:15,845 - competition_15 - INFO - score=9(with coefficient = 45) for affected 'Vakhtang' for team 'Черепашки3' with id=31 at nomination 'pilot'
+2024-09-18 23:08:15,846 - competition_15 - INFO - team 'Черепашки3' finished the second race with a score = 81 and time of race 300 sec
+2024-09-18 23:29:30,104 - competition_15 - INFO - score=3(with coefficient = 3) for affected 'Aslan' for team 'Черепашки1' with id=29 at nomination 'pilot'
+2024-09-18 23:29:30,108 - competition_15 - INFO - score=6(with coefficient = 6) for affected 'Aslan' for team 'Черепашки1' with id=29 at nomination 'pilot'
+2024-09-18 23:29:30,110 - competition_15 - INFO - team 'Черепашки1' finished the second race with a score = 9 and time of race 300 sec
+2024-09-18 23:29:37,847 - competition_15 - INFO - score=3(with coefficient = 3) for affected 'Aslan' for team 'Черепашки2' with id=30 at nomination 'pilot'
+2024-09-18 23:29:37,848 - competition_15 - INFO - score=13(with coefficient = 13) for affected 'Aslan' for team 'Черепашки2' with id=30 at nomination 'pilot'
+2024-09-18 23:29:37,850 - competition_15 - INFO - team 'Черепашки2' finished the second race with a score = 16 and time of race 300 sec
+2024-09-18 23:31:56,849 - competition_15 - INFO - score=3(with coefficient = 3) for affected 'Aslan' for team 'Черепашки1' with id=29 at nomination 'pilot'
+2024-09-18 23:31:56,851 - competition_15 - INFO - score=6(with coefficient = 6) for affected 'Aslan' for team 'Черепашки1' with id=29 at nomination 'pilot'
+2024-09-18 23:31:56,852 - competition_15 - INFO - team 'Черепашки1' finished the second race with a score = 9 and time of race 300 sec

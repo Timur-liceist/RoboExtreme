@@ -1,0 +1,7 @@
+2024-09-07 18:31:24,952 - competition_14 - INFO - score=3 for start from zone A for team 'Черепашки15' with id=28 at nomination 'pilot'
+2024-09-07 18:31:24,956 - competition_14 - INFO - score=3(with coefficient = 3) for affected 'Aslan' for team 'Черепашки15' with id=28 at nomination 'pilot'
+2024-09-07 18:31:24,956 - competition_14 - INFO - score=6(with coefficient = 6) for affected 'Aslan' for team 'Черепашки15' with id=28 at nomination 'pilot'
+2024-09-07 18:31:24,956 - competition_14 - INFO - score=9(with coefficient = 9) for affected 'Aslan' for team 'Черепашки15' with id=28 at nomination 'pilot'
+2024-09-07 18:31:24,958 - competition_14 - INFO - score=13(with coefficient = 13) for affected 'Aslan' for team 'Черепашки15' with id=28 at nomination 'pilot'
+2024-09-07 18:31:24,959 - competition_14 - INFO - team 'Черепашки15' finished the first race with a score = 34 and time of race 295
+2024-09-07 18:31:28,281 - competition_14 - INFO - team 'Черепашки15' finished the second race with a score = 0 and time of race 300 sec
