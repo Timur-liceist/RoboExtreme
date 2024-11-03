@@ -704,4 +704,6 @@ def reg_team(competition_id):
 # http://127.0.0.1:5000
 if __name__ == "__main__":
     db_session.global_init("dataBase/database.db")
-    app.run()
+    # how to run app on 0.0.0.0:5000
+    
+    app.run(port=8080, host="0.0.0.0", debug=True)
